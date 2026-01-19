@@ -146,7 +146,10 @@
 
         .comment-btn.has-comment {
             opacity: 1;
-            color: #667eea;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 8px;
         }
 
         .comment-modal {
@@ -1132,6 +1135,12 @@
 
         // Update comment button styles
         function updateCommentButtons() {
+            // First reset all buttons
+            document.querySelectorAll('.comment-btn').forEach(btn => {
+                btn.classList.remove('has-comment');
+                btn.textContent = '💬';
+            });
+
             [1, 3, 5, 7].forEach(weekNum => {
                 db.collection('weeks').doc(`week${weekNum}`).get().then(doc => {
                     if (doc.exists && doc.data().dayComments) {
@@ -1139,6 +1148,7 @@
                             const btn = document.getElementById(`cb-${dayId}`);
                             if (btn && doc.data().dayComments[dayId]) {
                                 btn.classList.add('has-comment');
+                                btn.textContent = '📝'; // Change icon when has comment
                             }
                         });
                     }
