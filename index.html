@@ -894,6 +894,37 @@
                 <h3 style="color: #856404; margin-bottom: 10px;">⚡ Key Principle</h3>
                 <p style="color: #856404; font-weight: 500;">Short and consistent. Stop while she still feels successful!</p>
             </div>
+
+            <!-- Resources Section -->
+            <div style="background: white; padding: 25px; border-radius: 12px; margin-top: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: #667eea; margin-bottom: 20px; font-size: 1.3em;">📚 Learning Resources</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+
+                    <div style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #4caf50;">
+                        <h4 style="color: #2e7d32; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                            📖 Reading
+                        </h4>
+                        <p style="font-size: 1.2em; font-weight: bold; color: #1b5e20; margin-bottom: 8px;">Raz-Plus</p>
+                        <p style="color: #388e3c; font-size: 0.9em;">Leveled reading program with guided books, quizzes, and progress tracking. Perfect for building reading fluency at Pera's level.</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #ff9800;">
+                        <h4 style="color: #e65100; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                            🔢 Math Fluency
+                        </h4>
+                        <p style="font-size: 1.2em; font-weight: bold; color: #bf360c; margin-bottom: 8px;">Reflex Math</p>
+                        <p style="color: #f57c00; font-size: 0.9em;">Adaptive math fact practice. Builds automaticity with addition and subtraction facts through engaging games.</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; border-radius: 10px; border-left: 4px solid #2196f3;">
+                        <h4 style="color: #1565c0; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                            🔤 Phonics / Word Study
+                        </h4>
+                        <p style="font-size: 1.2em; font-weight: bold; color: #0d47a1; margin-bottom: 8px;">Reading Eggs</p>
+                        <p style="color: #1976d2; font-size: 0.9em;">Fun, interactive phonics lessons with games and rewards. Covers CVC words, blends, digraphs, and sight words systematically.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="content">
@@ -934,10 +965,10 @@
                         
                         <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                             <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
-                            <input type="text" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Reading goal (Raz level/book)..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w1-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w1-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w1-focus3" placeholder="Reading goal (Raz level/book)..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w1-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
                         </div>
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
@@ -1005,6 +1036,84 @@
 
                         <button class="save-btn" onclick="saveWeekData(1)">💾 Save Week 1 Progress</button>
                     </div>
+
+                    <!-- Week 2 Tracker -->
+                    <div class="tracker-section" style="margin-top: 40px; border-left-color: #20c997;">
+                        <h3>📅 Weekly Tracker - Week 2 (Dates: _________)</h3>
+
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
+                            <input type="text" id="w2-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w2-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w2-focus3" placeholder="Reading goal (Raz level/book)..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w2-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                        </div>
+
+                        <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
+                        <div class="day-checks">
+                            <div class="day-check">
+                                <input type="checkbox" id="w2-mon">
+                                <label for="w2-mon">Monday</label>
+                                <button class="comment-btn" id="cb-w2-mon" onclick="openComment('w2-mon', 'Monday')">💬</button>
+                            </div>
+                            <div class="day-check">
+                                <input type="checkbox" id="w2-tue">
+                                <label for="w2-tue">Tuesday</label>
+                                <button class="comment-btn" id="cb-w2-tue" onclick="openComment('w2-tue', 'Tuesday')">💬</button>
+                            </div>
+                            <div class="day-check">
+                                <input type="checkbox" id="w2-wed">
+                                <label for="w2-wed">Wednesday</label>
+                                <button class="comment-btn" id="cb-w2-wed" onclick="openComment('w2-wed', 'Wednesday')">💬</button>
+                            </div>
+                            <div class="day-check">
+                                <input type="checkbox" id="w2-thu">
+                                <label for="w2-thu">Thursday</label>
+                                <button class="comment-btn" id="cb-w2-thu" onclick="openComment('w2-thu', 'Thursday')">💬</button>
+                            </div>
+                            <div class="day-check">
+                                <input type="checkbox" id="w2-fri">
+                                <label for="w2-fri">Friday</label>
+                                <button class="comment-btn" id="cb-w2-fri" onclick="openComment('w2-fri', 'Friday')">💬</button>
+                            </div>
+                        </div>
+
+                        <div class="week-progress-container" id="week2-progress">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week2-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week2-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week2-last-edited">No edits yet</div>
+
+                        <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
+                        <div class="progress-checks">
+                            <div class="progress-item">
+                                <label>ELA Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w2-ela')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w2-ela')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w2-ela')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Math Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w2-math')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w2-math')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w2-math')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notes-area">
+                            <label>📝 Notes / Adjustments for Next Week:</label>
+                            <textarea id="w2-notes" placeholder="Enter your observations, concerns, or adjustments needed..."></textarea>
+                        </div>
+
+                        <button class="save-btn" onclick="saveWeekData(2)">💾 Save Week 2 Progress</button>
+                    </div>
                 </div>
             </div>
 
@@ -1035,13 +1144,13 @@
 
                     <div class="tracker-section">
                         <h3>📅 Weekly Tracker - Week 3 (Dates: _________)</h3>
-                        
+
                         <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                             <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
-                            <input type="text" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w3-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w3-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w3-focus3" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w3-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
                         </div>
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
@@ -1089,6 +1198,64 @@
 
                         <button class="save-btn" onclick="saveWeekData(3)">💾 Save Week 3 Progress</button>
                     </div>
+
+                    <!-- Week 4 Tracker -->
+                    <div class="tracker-section" style="margin-top: 40px; border-left-color: #20c997;">
+                        <h3>📅 Weekly Tracker - Week 4 (Dates: _________)</h3>
+
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
+                            <input type="text" id="w4-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w4-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w4-focus3" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w4-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                        </div>
+
+                        <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
+                        <div class="day-checks">
+                            <div class="day-check"><input type="checkbox" id="w4-mon"><label for="w4-mon">Monday</label><button class="comment-btn" id="cb-w4-mon" onclick="openComment('w4-mon', 'Monday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w4-tue"><label for="w4-tue">Tuesday</label><button class="comment-btn" id="cb-w4-tue" onclick="openComment('w4-tue', 'Tuesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w4-wed"><label for="w4-wed">Wednesday</label><button class="comment-btn" id="cb-w4-wed" onclick="openComment('w4-wed', 'Wednesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w4-thu"><label for="w4-thu">Thursday</label><button class="comment-btn" id="cb-w4-thu" onclick="openComment('w4-thu', 'Thursday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w4-fri"><label for="w4-fri">Friday</label><button class="comment-btn" id="cb-w4-fri" onclick="openComment('w4-fri', 'Friday')">💬</button></div>
+                        </div>
+
+                        <div class="week-progress-container">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week4-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week4-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week4-last-edited">No edits yet</div>
+
+                        <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
+                        <div class="progress-checks">
+                            <div class="progress-item">
+                                <label>ELA Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w4-ela')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w4-ela')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w4-ela')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Math Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w4-math')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w4-math')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w4-math')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notes-area">
+                            <label>📝 Notes / Adjustments for Next Week:</label>
+                            <textarea id="w4-notes" placeholder="Enter your observations..."></textarea>
+                        </div>
+
+                        <button class="save-btn" onclick="saveWeekData(4)">💾 Save Week 4 Progress</button>
+                    </div>
                 </div>
             </div>
 
@@ -1118,13 +1285,13 @@
 
                     <div class="tracker-section">
                         <h3>📅 Weekly Tracker - Week 5 (Dates: _________)</h3>
-                        
+
                         <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                             <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
-                            <input type="text" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w5-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w5-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w5-focus3" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w5-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
                         </div>
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
@@ -1172,6 +1339,64 @@
 
                         <button class="save-btn" onclick="saveWeekData(5)">💾 Save Week 5 Progress</button>
                     </div>
+
+                    <!-- Week 6 Tracker -->
+                    <div class="tracker-section" style="margin-top: 40px; border-left-color: #20c997;">
+                        <h3>📅 Weekly Tracker - Week 6 (Dates: _________)</h3>
+
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
+                            <input type="text" id="w6-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w6-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w6-focus3" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w6-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                        </div>
+
+                        <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
+                        <div class="day-checks">
+                            <div class="day-check"><input type="checkbox" id="w6-mon"><label for="w6-mon">Monday</label><button class="comment-btn" id="cb-w6-mon" onclick="openComment('w6-mon', 'Monday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w6-tue"><label for="w6-tue">Tuesday</label><button class="comment-btn" id="cb-w6-tue" onclick="openComment('w6-tue', 'Tuesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w6-wed"><label for="w6-wed">Wednesday</label><button class="comment-btn" id="cb-w6-wed" onclick="openComment('w6-wed', 'Wednesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w6-thu"><label for="w6-thu">Thursday</label><button class="comment-btn" id="cb-w6-thu" onclick="openComment('w6-thu', 'Thursday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w6-fri"><label for="w6-fri">Friday</label><button class="comment-btn" id="cb-w6-fri" onclick="openComment('w6-fri', 'Friday')">💬</button></div>
+                        </div>
+
+                        <div class="week-progress-container">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week6-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week6-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week6-last-edited">No edits yet</div>
+
+                        <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
+                        <div class="progress-checks">
+                            <div class="progress-item">
+                                <label>ELA Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w6-ela')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w6-ela')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w6-ela')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Math Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w6-math')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w6-math')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w6-math')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notes-area">
+                            <label>📝 Notes / Adjustments for Next Week:</label>
+                            <textarea id="w6-notes" placeholder="Enter your observations..."></textarea>
+                        </div>
+
+                        <button class="save-btn" onclick="saveWeekData(6)">💾 Save Week 6 Progress</button>
+                    </div>
                 </div>
             </div>
 
@@ -1201,13 +1426,13 @@
 
                     <div class="tracker-section">
                         <h3>📅 Weekly Tracker - Week 7 (Dates: _________)</h3>
-                        
+
                         <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                             <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
-                            <input type="text" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                            <input type="text" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w7-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w7-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w7-focus3" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w7-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
                         </div>
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
@@ -1254,6 +1479,64 @@
                         </div>
 
                         <button class="save-btn" onclick="saveWeekData(7)">💾 Save Week 7 Progress</button>
+                    </div>
+
+                    <!-- Week 8 Tracker -->
+                    <div class="tracker-section" style="margin-top: 40px; border-left-color: #20c997;">
+                        <h3>📅 Weekly Tracker - Week 8 (Dates: _________)</h3>
+
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px; color: #667eea;">This Week's Focus:</h4>
+                            <input type="text" id="w8-focus1" placeholder="Phonics focus..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w8-focus2" placeholder="Sight words..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w8-focus3" placeholder="Reading goal..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                            <input type="text" id="w8-focus4" placeholder="Math goal..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
+                        </div>
+
+                        <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
+                        <div class="day-checks">
+                            <div class="day-check"><input type="checkbox" id="w8-mon"><label for="w8-mon">Monday</label><button class="comment-btn" id="cb-w8-mon" onclick="openComment('w8-mon', 'Monday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w8-tue"><label for="w8-tue">Tuesday</label><button class="comment-btn" id="cb-w8-tue" onclick="openComment('w8-tue', 'Tuesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w8-wed"><label for="w8-wed">Wednesday</label><button class="comment-btn" id="cb-w8-wed" onclick="openComment('w8-wed', 'Wednesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w8-thu"><label for="w8-thu">Thursday</label><button class="comment-btn" id="cb-w8-thu" onclick="openComment('w8-thu', 'Thursday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w8-fri"><label for="w8-fri">Friday</label><button class="comment-btn" id="cb-w8-fri" onclick="openComment('w8-fri', 'Friday')">💬</button></div>
+                        </div>
+
+                        <div class="week-progress-container">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week8-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week8-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week8-last-edited">No edits yet</div>
+
+                        <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
+                        <div class="progress-checks">
+                            <div class="progress-item">
+                                <label>ELA Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w8-ela')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w8-ela')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w8-ela')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Math Result:</label>
+                                <div class="status-buttons">
+                                    <button class="status-btn mastered" onclick="setStatus(this, 'w8-math')">✅ Mastered</button>
+                                    <button class="status-btn developing" onclick="setStatus(this, 'w8-math')">🟡 Developing</button>
+                                    <button class="status-btn needs-support" onclick="setStatus(this, 'w8-math')">❌ Needs Support</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="notes-area">
+                            <label>📝 Notes / Adjustments:</label>
+                            <textarea id="w8-notes" placeholder="Final observations and recommendations..."></textarea>
+                        </div>
+
+                        <button class="save-btn" onclick="saveWeekData(8)">💾 Save Week 8 Progress</button>
                     </div>
                 </div>
             </div>
@@ -1390,7 +1673,7 @@
                 btn.textContent = '💬';
             });
 
-            [1, 3, 5, 7].forEach(weekNum => {
+            [1, 2, 3, 4, 5, 6, 7, 8].forEach(weekNum => {
                 db.collection('weeks').doc(`week${weekNum}`).get().then(doc => {
                     if (doc.exists && doc.data().dayComments) {
                         Object.keys(doc.data().dayComments).forEach(dayId => {
@@ -1407,11 +1690,10 @@
 
         // Calculate and update progress bars
         function updateProgressBars() {
-            const weekMapping = { 1: 1, 2: 3, 3: 5, 4: 7 };
             let totalChecked = 0;
             let totalCheckboxes = 0;
 
-            [1, 3, 5, 7].forEach(weekNum => {
+            [1, 2, 3, 4, 5, 6, 7, 8].forEach(weekNum => {
                 const checkboxes = document.querySelectorAll(`input[id^="w${weekNum}-"]:checked`);
                 const allCheckboxes = document.querySelectorAll(`input[id^="w${weekNum}-"][type="checkbox"]`);
 
@@ -1527,14 +1809,13 @@
                 weekData.notes = notes.value;
             }
 
-            // Save text inputs (focus areas)
-            const section = document.querySelector(`[data-week="${Math.ceil(weekNum/2)}"]`);
-            if (section) {
-                const inputs = section.querySelectorAll('input[type="text"]');
-                weekData.focusAreas = {};
-                inputs.forEach((input, index) => {
-                    weekData.focusAreas[`field${index}`] = input.value;
-                });
+            // Save text inputs (focus areas) - each week has its own focus inputs
+            weekData.focusAreas = {};
+            for (let i = 1; i <= 4; i++) {
+                const input = document.getElementById(`w${weekNum}-focus${i}`);
+                if (input) {
+                    weekData.focusAreas[`field${i-1}`] = input.value;
+                }
             }
 
             // Save to Firebase
@@ -1611,16 +1892,13 @@
                         notes.value = data.notes;
                     }
 
-                    // Restore focus areas
+                    // Restore focus areas - each week has its own focus inputs
                     if (data.focusAreas) {
-                        const section = document.querySelector(`[data-week="${Math.ceil(weekNum/2)}"]`);
-                        if (section) {
-                            const inputs = section.querySelectorAll('input[type="text"]');
-                            inputs.forEach((input, index) => {
-                                if (data.focusAreas[`field${index}`]) {
-                                    input.value = data.focusAreas[`field${index}`];
-                                }
-                            });
+                        for (let i = 0; i < 4; i++) {
+                            const input = document.getElementById(`w${weekNum}-focus${i+1}`);
+                            if (input && data.focusAreas[`field${i}`]) {
+                                input.value = data.focusAreas[`field${i}`];
+                            }
                         }
                     }
 
@@ -1687,13 +1965,10 @@
                 clearTimeout(autoSaveTimer);
                 autoSaveTimer = setTimeout(() => {
                     if (!requireUser()) return;
-                    // Find which week this belongs to
-                    const section = e.target.closest('.week-section');
-                    if (section) {
-                        const weekNum = section.dataset.week === '1' ? 1 :
-                                       section.dataset.week === '2' ? 3 :
-                                       section.dataset.week === '3' ? 5 : 7;
-                        saveWeekData(weekNum);
+                    // Find which week this belongs to by checking the element ID
+                    const weekMatch = e.target.id.match(/w(\d+)-/);
+                    if (weekMatch) {
+                        saveWeekData(parseInt(weekMatch[1]));
                     }
                 }, 1500); // Save 1.5 seconds after user stops typing
             }
