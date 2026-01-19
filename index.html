@@ -798,11 +798,56 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDL-Pg0MJ_sDorFefIlyUwyeqZU1grQMH0",
+            authDomain: "pera-support.firebaseapp.com",
+            projectId: "pera-support",
+            storageBucket: "pera-support.firebasestorage.app",
+            messagingSenderId: "970307738932",
+            appId: "1:970307738932:web:7f0aa87178389b13c65961"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Connection status indicator
+        let isOnline = true;
+
         // Toggle week sections
         function toggleWeek(header) {
             const section = header.parentElement;
             section.classList.toggle('collapsed');
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+                color: white;
+                border-radius: 8px;
+                font-weight: bold;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
         }
 
         // Set status for progress items
@@ -810,29 +855,32 @@
             const buttons = button.parentElement.querySelectorAll('.status-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
-            
-            // Save to localStorage
-            const status = button.textContent.includes('Mastered') ? 'mastered' : 
+
+            // Save to Firebase
+            const status = button.textContent.includes('Mastered') ? 'mastered' :
                           button.textContent.includes('Developing') ? 'developing' : 'needs-support';
-            localStorage.setItem(groupName, status);
+
+            db.collection('progress').doc('statuses').set({
+                [groupName]: status,
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true })
+            .then(() => showNotification('✅ Status saved!', 'success'))
+            .catch(err => showNotification('❌ Error saving', 'error'));
         }
 
         // Save week data
         function saveWeekData(weekNum) {
             const weekData = {
                 week: weekNum,
-                timestamp: new Date().toISOString(),
-                completed: []
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                completed: {}
             };
 
             // Save checkboxes
             const checkboxes = document.querySelectorAll(`input[id^="w${weekNum}-"]:not([type="text"])`);
             checkboxes.forEach(cb => {
                 if (cb.type === 'checkbox') {
-                    weekData.completed.push({
-                        id: cb.id,
-                        checked: cb.checked
-                    });
+                    weekData.completed[cb.id] = cb.checked;
                 }
             });
 
@@ -842,93 +890,134 @@
                 weekData.notes = notes.value;
             }
 
-            // Save to localStorage
-            localStorage.setItem(`week${weekNum}`, JSON.stringify(weekData));
-            
-            // Show confirmation
-            alert(`✅ Week ${weekNum} progress saved successfully!`);
+            // Save text inputs (focus areas)
+            const section = document.querySelector(`[data-week="${Math.ceil(weekNum/2)}"]`);
+            if (section) {
+                const inputs = section.querySelectorAll('input[type="text"]');
+                weekData.focusAreas = {};
+                inputs.forEach((input, index) => {
+                    weekData.focusAreas[`field${index}`] = input.value;
+                });
+            }
+
+            // Save to Firebase
+            db.collection('weeks').doc(`week${weekNum}`).set(weekData, { merge: true })
+                .then(() => showNotification(`✅ Week ${weekNum} saved!`, 'success'))
+                .catch(error => showNotification(`❌ Error: ${error.message}`, 'error'));
         }
 
         // Export all data
-        function exportData() {
+        async function exportData() {
+            showNotification('📥 Preparing export...', 'info');
+
             const allData = {
                 exportDate: new Date().toISOString(),
-                weeks: []
+                weeks: [],
+                statuses: {}
             };
 
-            // Collect all week data
-            for (let i = 1; i <= 8; i++) {
-                const weekData = localStorage.getItem(`week${i}`);
-                if (weekData) {
-                    allData.weeks.push(JSON.parse(weekData));
-                }
-            }
+            try {
+                // Get weeks data
+                const weeksSnapshot = await db.collection('weeks').get();
+                weeksSnapshot.forEach(doc => {
+                    allData.weeks.push({ id: doc.id, ...doc.data() });
+                });
 
-            // Create download
-            const dataStr = JSON.stringify(allData, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `pera-progress-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
+                // Get statuses
+                const statusDoc = await db.collection('progress').doc('statuses').get();
+                if (statusDoc.exists) {
+                    allData.statuses = statusDoc.data();
+                }
+
+                // Create download
+                const dataStr = JSON.stringify(allData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `pera-progress-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+
+                showNotification('✅ Export complete!', 'success');
+            } catch (error) {
+                showNotification(`❌ Export failed: ${error.message}`, 'error');
+            }
         }
 
-        // Load saved data on page load
+        // Load data from Firebase and listen for real-time updates
         window.addEventListener('load', function() {
-            // Load all week data
-            for (let i = 1; i <= 8; i++) {
-                const weekData = localStorage.getItem(`week${i}`);
-                if (weekData) {
-                    const data = JSON.parse(weekData);
-                    
+            showNotification('🔄 Syncing...', 'info');
+
+            // Listen for real-time updates on weeks
+            db.collection('weeks').onSnapshot(snapshot => {
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const weekNum = data.week;
+
                     // Restore checkboxes
                     if (data.completed) {
-                        data.completed.forEach(item => {
-                            const checkbox = document.getElementById(item.id);
-                            if (checkbox) {
-                                checkbox.checked = item.checked;
-                            }
+                        Object.entries(data.completed).forEach(([id, checked]) => {
+                            const checkbox = document.getElementById(id);
+                            if (checkbox) checkbox.checked = checked;
                         });
                     }
 
                     // Restore notes
-                    const notes = document.getElementById(`w${i}-notes`);
-                    if (notes && data.notes) {
+                    const notes = document.getElementById(`w${weekNum}-notes`);
+                    if (notes && data.notes !== undefined) {
                         notes.value = data.notes;
                     }
-                }
-            }
 
-            // Load status buttons
-            const statusKeys = ['w1-ela', 'w1-math', 'w3-ela', 'w3-math', 'w5-ela', 'w5-math', 'w7-ela', 'w7-math'];
-            statusKeys.forEach(key => {
-                const status = localStorage.getItem(key);
-                if (status) {
-                    const buttons = document.querySelectorAll(`button[onclick*="${key}"]`);
-                    buttons.forEach(btn => {
-                        if (btn.classList.contains(status)) {
-                            btn.classList.add('active');
+                    // Restore focus areas
+                    if (data.focusAreas) {
+                        const section = document.querySelector(`[data-week="${Math.ceil(weekNum/2)}"]`);
+                        if (section) {
+                            const inputs = section.querySelectorAll('input[type="text"]');
+                            inputs.forEach((input, index) => {
+                                if (data.focusAreas[`field${index}`]) {
+                                    input.value = data.focusAreas[`field${index}`];
+                                }
+                            });
+                        }
+                    }
+                });
+                showNotification('✅ Synced!', 'success');
+            }, error => {
+                showNotification('❌ Sync error - check Firestore', 'error');
+                console.error('Firestore error:', error);
+            });
+
+            // Listen for real-time updates on statuses
+            db.collection('progress').doc('statuses').onSnapshot(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    Object.entries(data).forEach(([key, status]) => {
+                        if (key !== 'lastUpdated') {
+                            const buttons = document.querySelectorAll(`button[onclick*="${key}"]`);
+                            buttons.forEach(btn => {
+                                btn.classList.remove('active');
+                                if (btn.classList.contains(status)) {
+                                    btn.classList.add('active');
+                                }
+                            });
                         }
                     });
                 }
             });
         });
 
-        // Auto-save functionality
-        document.querySelectorAll('input, textarea').forEach(element => {
-            element.addEventListener('change', function() {
-                // Auto-save on change
-                const weekMatch = this.id.match(/w(\d+)-/);
+        // Auto-save checkboxes immediately
+        document.addEventListener('change', function(e) {
+            if (e.target.matches('input[type="checkbox"]')) {
+                const weekMatch = e.target.id.match(/w(\d+)-/);
                 if (weekMatch) {
                     const weekNum = weekMatch[1];
-                    // Debounce save
-                    clearTimeout(window.autoSaveTimer);
-                    window.autoSaveTimer = setTimeout(() => {
-                        console.log(`Auto-saving week ${weekNum}...`);
-                    }, 1000);
+                    db.collection('weeks').doc(`week${weekNum}`).set({
+                        completed: { [e.target.id]: e.target.checked },
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
                 }
-            });
+            }
         });
     </script>
 </body>
