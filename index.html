@@ -946,7 +946,7 @@
 
         // Load data from Firebase and listen for real-time updates
         window.addEventListener('load', function() {
-            showNotification('🔄 Syncing...', 'info');
+            showNotification('🔄 Loading...', 'info');
 
             // Listen for real-time updates on weeks
             db.collection('weeks').onSnapshot(snapshot => {
@@ -981,9 +981,9 @@
                         }
                     }
                 });
-                showNotification('✅ Synced!', 'success');
+                showNotification('✅ Saved!', 'success');
             }, error => {
-                showNotification('❌ Sync error - check Firestore', 'error');
+                showNotification('❌ Connection error', 'error');
                 console.error('Firestore error:', error);
             });
 
@@ -1006,8 +1006,10 @@
             });
         });
 
-        // Auto-save checkboxes immediately
+        // Auto-save everything immediately
+        let autoSaveTimer;
         document.addEventListener('change', function(e) {
+            // Auto-save checkboxes
             if (e.target.matches('input[type="checkbox"]')) {
                 const weekMatch = e.target.id.match(/w(\d+)-/);
                 if (weekMatch) {
@@ -1016,7 +1018,25 @@
                         completed: { [e.target.id]: e.target.checked },
                         lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
                     }, { merge: true });
+                    showNotification('✅ Saved!', 'success');
                 }
+            }
+        });
+
+        // Auto-save text inputs and textareas with debounce
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('input[type="text"], textarea')) {
+                clearTimeout(autoSaveTimer);
+                autoSaveTimer = setTimeout(() => {
+                    // Find which week this belongs to
+                    const section = e.target.closest('.week-section');
+                    if (section) {
+                        const weekNum = section.dataset.week === '1' ? 1 :
+                                       section.dataset.week === '2' ? 3 :
+                                       section.dataset.week === '3' ? 5 : 7;
+                        saveWeekData(weekNum);
+                    }
+                }, 1500); // Save 1.5 seconds after user stops typing
             }
         });
     </script>
