@@ -45,6 +45,177 @@
             opacity: 0.95;
         }
 
+        .header-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .user-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        .user-select select {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .overall-progress {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            min-width: 200px;
+        }
+
+        .overall-progress-text {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .week-progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 8px;
+        }
+
+        .week-progress-container .progress-bar {
+            flex: 1;
+            background: #c8e6c9;
+        }
+
+        .week-progress-text {
+            font-weight: bold;
+            color: #2e7d32;
+            min-width: 50px;
+        }
+
+        .last-edited {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .comment-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 5px;
+            opacity: 0.5;
+            transition: all 0.2s;
+        }
+
+        .comment-btn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .comment-btn.has-comment {
+            opacity: 1;
+            color: #667eea;
+        }
+
+        .comment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .comment-modal.active {
+            display: flex;
+        }
+
+        .comment-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .comment-modal h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .comment-modal textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .comment-modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+
+        .comment-modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comment-save-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .comment-cancel-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+
         .info-section {
             background: #f8f9fa;
             padding: 30px 40px;
@@ -410,6 +581,37 @@
             <h1>🌟 Pera's 8-Week Aligned Support Plan 🌟</h1>
             <p>Waters Edge Elementary School - Grade 1</p>
             <p style="font-size: 0.9em; margin-top: 10px;">School + Eva Boothby + Home Support</p>
+
+            <div class="header-controls">
+                <div class="user-select">
+                    <span>👤</span>
+                    <select id="currentUser" onchange="saveCurrentUser()">
+                        <option value="">Sen kimsin?</option>
+                        <option value="Erhan">Erhan</option>
+                        <option value="Meral">Meral</option>
+                        <option value="Eva">Eva</option>
+                        <option value="Mrs. Frixione">Mrs. Frixione</option>
+                    </select>
+                </div>
+                <div class="overall-progress">
+                    <div class="overall-progress-text">📊 Overall Progress: <span id="overallPercent">0%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" id="overallProgressBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comment Modal -->
+        <div class="comment-modal" id="commentModal">
+            <div class="comment-modal-content">
+                <h3>💬 Add Comment for <span id="commentDayLabel"></span></h3>
+                <textarea id="commentText" placeholder="Write your comment about today's work..."></textarea>
+                <div class="comment-modal-buttons">
+                    <button class="comment-cancel-btn" onclick="closeCommentModal()">Cancel</button>
+                    <button class="comment-save-btn" onclick="saveComment()">Save Comment</button>
+                </div>
+            </div>
         </div>
 
         <div class="info-section">
@@ -516,24 +718,38 @@
                             <div class="day-check">
                                 <input type="checkbox" id="w1-mon">
                                 <label for="w1-mon">Monday</label>
+                                <button class="comment-btn" id="cb-w1-mon" onclick="openComment('w1-mon', 'Monday')">💬</button>
                             </div>
                             <div class="day-check">
                                 <input type="checkbox" id="w1-tue">
                                 <label for="w1-tue">Tuesday</label>
+                                <button class="comment-btn" id="cb-w1-tue" onclick="openComment('w1-tue', 'Tuesday')">💬</button>
                             </div>
                             <div class="day-check">
                                 <input type="checkbox" id="w1-wed">
                                 <label for="w1-wed">Wednesday</label>
+                                <button class="comment-btn" id="cb-w1-wed" onclick="openComment('w1-wed', 'Wednesday')">💬</button>
                             </div>
                             <div class="day-check">
                                 <input type="checkbox" id="w1-thu">
                                 <label for="w1-thu">Thursday</label>
+                                <button class="comment-btn" id="cb-w1-thu" onclick="openComment('w1-thu', 'Thursday')">💬</button>
                             </div>
                             <div class="day-check">
                                 <input type="checkbox" id="w1-fri">
                                 <label for="w1-fri">Friday</label>
+                                <button class="comment-btn" id="cb-w1-fri" onclick="openComment('w1-fri', 'Friday')">💬</button>
                             </div>
                         </div>
+
+                        <div class="week-progress-container" id="week1-progress">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week1-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week1-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week1-last-edited">No edits yet</div>
 
                         <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
                         <div class="progress-checks">
@@ -603,12 +819,21 @@
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
                         <div class="day-checks">
-                            <div class="day-check"><input type="checkbox" id="w3-mon"><label for="w3-mon">Monday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w3-tue"><label for="w3-tue">Tuesday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w3-wed"><label for="w3-wed">Wednesday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w3-thu"><label for="w3-thu">Thursday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w3-fri"><label for="w3-fri">Friday</label></div>
+                            <div class="day-check"><input type="checkbox" id="w3-mon"><label for="w3-mon">Monday</label><button class="comment-btn" id="cb-w3-mon" onclick="openComment('w3-mon', 'Monday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w3-tue"><label for="w3-tue">Tuesday</label><button class="comment-btn" id="cb-w3-tue" onclick="openComment('w3-tue', 'Tuesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w3-wed"><label for="w3-wed">Wednesday</label><button class="comment-btn" id="cb-w3-wed" onclick="openComment('w3-wed', 'Wednesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w3-thu"><label for="w3-thu">Thursday</label><button class="comment-btn" id="cb-w3-thu" onclick="openComment('w3-thu', 'Thursday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w3-fri"><label for="w3-fri">Friday</label><button class="comment-btn" id="cb-w3-fri" onclick="openComment('w3-fri', 'Friday')">💬</button></div>
                         </div>
+
+                        <div class="week-progress-container">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week3-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week3-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week3-last-edited">No edits yet</div>
 
                         <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
                         <div class="progress-checks">
@@ -677,12 +902,21 @@
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
                         <div class="day-checks">
-                            <div class="day-check"><input type="checkbox" id="w5-mon"><label for="w5-mon">Monday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w5-tue"><label for="w5-tue">Tuesday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w5-wed"><label for="w5-wed">Wednesday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w5-thu"><label for="w5-thu">Thursday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w5-fri"><label for="w5-fri">Friday</label></div>
+                            <div class="day-check"><input type="checkbox" id="w5-mon"><label for="w5-mon">Monday</label><button class="comment-btn" id="cb-w5-mon" onclick="openComment('w5-mon', 'Monday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w5-tue"><label for="w5-tue">Tuesday</label><button class="comment-btn" id="cb-w5-tue" onclick="openComment('w5-tue', 'Tuesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w5-wed"><label for="w5-wed">Wednesday</label><button class="comment-btn" id="cb-w5-wed" onclick="openComment('w5-wed', 'Wednesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w5-thu"><label for="w5-thu">Thursday</label><button class="comment-btn" id="cb-w5-thu" onclick="openComment('w5-thu', 'Thursday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w5-fri"><label for="w5-fri">Friday</label><button class="comment-btn" id="cb-w5-fri" onclick="openComment('w5-fri', 'Friday')">💬</button></div>
                         </div>
+
+                        <div class="week-progress-container">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week5-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week5-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week5-last-edited">No edits yet</div>
 
                         <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
                         <div class="progress-checks">
@@ -751,12 +985,21 @@
 
                         <h4 style="margin-bottom: 15px; color: #117a8b;">Home Routine Completed:</h4>
                         <div class="day-checks">
-                            <div class="day-check"><input type="checkbox" id="w7-mon"><label for="w7-mon">Monday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w7-tue"><label for="w7-tue">Tuesday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w7-wed"><label for="w7-wed">Wednesday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w7-thu"><label for="w7-thu">Thursday</label></div>
-                            <div class="day-check"><input type="checkbox" id="w7-fri"><label for="w7-fri">Friday</label></div>
+                            <div class="day-check"><input type="checkbox" id="w7-mon"><label for="w7-mon">Monday</label><button class="comment-btn" id="cb-w7-mon" onclick="openComment('w7-mon', 'Monday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w7-tue"><label for="w7-tue">Tuesday</label><button class="comment-btn" id="cb-w7-tue" onclick="openComment('w7-tue', 'Tuesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w7-wed"><label for="w7-wed">Wednesday</label><button class="comment-btn" id="cb-w7-wed" onclick="openComment('w7-wed', 'Wednesday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w7-thu"><label for="w7-thu">Thursday</label><button class="comment-btn" id="cb-w7-thu" onclick="openComment('w7-thu', 'Thursday')">💬</button></div>
+                            <div class="day-check"><input type="checkbox" id="w7-fri"><label for="w7-fri">Friday</label><button class="comment-btn" id="cb-w7-fri" onclick="openComment('w7-fri', 'Friday')">💬</button></div>
                         </div>
+
+                        <div class="week-progress-container">
+                            <span>📈 Week Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" id="week7-progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="week-progress-text" id="week7-progress-text">0%</span>
+                        </div>
+                        <div class="last-edited" id="week7-last-edited">No edits yet</div>
 
                         <h4 style="margin-bottom: 15px; margin-top: 25px; color: #117a8b;">Friday Progress Check:</h4>
                         <div class="progress-checks">
@@ -819,11 +1062,139 @@
 
         // Connection status indicator
         let isOnline = true;
+        let currentCommentDay = null;
+
+        // Get current user from localStorage
+        function getCurrentUser() {
+            return localStorage.getItem('peraUser') || '';
+        }
+
+        // Save current user to localStorage
+        function saveCurrentUser() {
+            const user = document.getElementById('currentUser').value;
+            localStorage.setItem('peraUser', user);
+            if (user) {
+                showNotification(`👋 Welcome, ${user}!`, 'success');
+            }
+        }
+
+        // Load user on page load
+        function loadCurrentUser() {
+            const savedUser = getCurrentUser();
+            if (savedUser) {
+                document.getElementById('currentUser').value = savedUser;
+            }
+        }
 
         // Toggle week sections
         function toggleWeek(header) {
             const section = header.parentElement;
             section.classList.toggle('collapsed');
+        }
+
+        // Comment Modal Functions
+        function openComment(dayId, dayLabel) {
+            currentCommentDay = dayId;
+            document.getElementById('commentDayLabel').textContent = dayLabel;
+            document.getElementById('commentModal').classList.add('active');
+
+            // Load existing comment
+            const weekNum = dayId.match(/w(\d+)-/)[1];
+            db.collection('weeks').doc(`week${weekNum}`).get().then(doc => {
+                if (doc.exists && doc.data().dayComments && doc.data().dayComments[dayId]) {
+                    document.getElementById('commentText').value = doc.data().dayComments[dayId];
+                } else {
+                    document.getElementById('commentText').value = '';
+                }
+            });
+        }
+
+        function closeCommentModal() {
+            document.getElementById('commentModal').classList.remove('active');
+            currentCommentDay = null;
+        }
+
+        function saveComment() {
+            const comment = document.getElementById('commentText').value;
+            const weekNum = currentCommentDay.match(/w(\d+)-/)[1];
+            const user = getCurrentUser() || 'Anonymous';
+
+            db.collection('weeks').doc(`week${weekNum}`).set({
+                dayComments: { [currentCommentDay]: comment },
+                lastEditedBy: user,
+                lastEditedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true }).then(() => {
+                showNotification('💬 Comment saved!', 'success');
+                closeCommentModal();
+                updateCommentButtons();
+            });
+        }
+
+        // Update comment button styles
+        function updateCommentButtons() {
+            [1, 3, 5, 7].forEach(weekNum => {
+                db.collection('weeks').doc(`week${weekNum}`).get().then(doc => {
+                    if (doc.exists && doc.data().dayComments) {
+                        Object.keys(doc.data().dayComments).forEach(dayId => {
+                            const btn = document.getElementById(`cb-${dayId}`);
+                            if (btn && doc.data().dayComments[dayId]) {
+                                btn.classList.add('has-comment');
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // Calculate and update progress bars
+        function updateProgressBars() {
+            const weekMapping = { 1: 1, 2: 3, 3: 5, 4: 7 };
+            let totalChecked = 0;
+            let totalCheckboxes = 0;
+
+            [1, 3, 5, 7].forEach(weekNum => {
+                const checkboxes = document.querySelectorAll(`input[id^="w${weekNum}-"]:checked`);
+                const allCheckboxes = document.querySelectorAll(`input[id^="w${weekNum}-"][type="checkbox"]`);
+
+                const checked = checkboxes.length;
+                const total = allCheckboxes.length;
+                const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+
+                // Update week progress bar
+                const progressBar = document.getElementById(`week${weekNum}-progress-bar`);
+                const progressText = document.getElementById(`week${weekNum}-progress-text`);
+                if (progressBar) progressBar.style.width = `${percent}%`;
+                if (progressText) progressText.textContent = `${percent}%`;
+
+                totalChecked += checked;
+                totalCheckboxes += total;
+            });
+
+            // Update overall progress
+            const overallPercent = totalCheckboxes > 0 ? Math.round((totalChecked / totalCheckboxes) * 100) : 0;
+            document.getElementById('overallPercent').textContent = `${overallPercent}%`;
+            document.getElementById('overallProgressBar').style.width = `${overallPercent}%`;
+        }
+
+        // Format time ago
+        function timeAgo(timestamp) {
+            if (!timestamp) return 'No edits yet';
+            const now = new Date();
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            const seconds = Math.floor((now - date) / 1000);
+
+            if (seconds < 60) return 'just now';
+            if (seconds < 3600) return `${Math.floor(seconds/60)} min ago`;
+            if (seconds < 86400) return `${Math.floor(seconds/3600)} hours ago`;
+            return `${Math.floor(seconds/86400)} days ago`;
+        }
+
+        // Update last edited info
+        function updateLastEdited(weekNum, data) {
+            const el = document.getElementById(`week${weekNum}-last-edited`);
+            if (el && data.lastEditedBy) {
+                el.textContent = `Last edited by ${data.lastEditedBy}, ${timeAgo(data.lastEditedAt)}`;
+            }
         }
 
         // Show notification
@@ -870,9 +1241,12 @@
 
         // Save week data
         function saveWeekData(weekNum) {
+            const user = getCurrentUser() || 'Anonymous';
             const weekData = {
                 week: weekNum,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                lastEditedBy: user,
+                lastEditedAt: firebase.firestore.FieldValue.serverTimestamp(),
                 completed: {}
             };
 
@@ -902,7 +1276,10 @@
 
             // Save to Firebase
             db.collection('weeks').doc(`week${weekNum}`).set(weekData, { merge: true })
-                .then(() => showNotification(`✅ Week ${weekNum} saved!`, 'success'))
+                .then(() => {
+                    showNotification(`✅ Week ${weekNum} saved!`, 'success');
+                    updateProgressBars();
+                })
                 .catch(error => showNotification(`❌ Error: ${error.message}`, 'error'));
         }
 
@@ -948,6 +1325,9 @@
         window.addEventListener('load', function() {
             showNotification('🔄 Loading...', 'info');
 
+            // Load saved user
+            loadCurrentUser();
+
             // Listen for real-time updates on weeks
             db.collection('weeks').onSnapshot(snapshot => {
                 snapshot.forEach(doc => {
@@ -980,7 +1360,14 @@
                             });
                         }
                     }
+
+                    // Update last edited info
+                    updateLastEdited(weekNum, data);
                 });
+
+                // Update progress bars after data loads
+                updateProgressBars();
+                updateCommentButtons();
                 showNotification('✅ Saved!', 'success');
             }, error => {
                 showNotification('❌ Connection error', 'error');
@@ -1014,10 +1401,14 @@
                 const weekMatch = e.target.id.match(/w(\d+)-/);
                 if (weekMatch) {
                     const weekNum = weekMatch[1];
+                    const user = getCurrentUser() || 'Anonymous';
                     db.collection('weeks').doc(`week${weekNum}`).set({
+                        week: parseInt(weekNum),
                         completed: { [e.target.id]: e.target.checked },
-                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                        lastEditedBy: user,
+                        lastEditedAt: firebase.firestore.FieldValue.serverTimestamp()
                     }, { merge: true });
+                    updateProgressBars();
                     showNotification('✅ Saved!', 'success');
                 }
             }
