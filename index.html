@@ -219,6 +219,145 @@
             color: #333;
         }
 
+        /* Help Button */
+        .help-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            z-index: 9998;
+            transition: all 0.3s ease;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Help Panel Slide-in */
+        .help-panel {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 420px;
+            max-width: 90vw;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            z-index: 10001;
+            transition: right 0.4s ease;
+            overflow-y: auto;
+        }
+
+        .help-panel.active {
+            right: 0;
+        }
+
+        .help-panel-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .help-panel-header h2 {
+            margin: 0;
+            font-size: 1.4em;
+        }
+
+        .help-close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .help-close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .help-panel-content {
+            padding: 25px;
+        }
+
+        .help-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .help-section:last-child {
+            border-bottom: none;
+        }
+
+        .help-section h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .help-section p, .help-section li {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .help-section ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        .help-section li {
+            margin-bottom: 8px;
+        }
+
+        .help-tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 10px;
+        }
+
+        .help-tip strong {
+            color: #856404;
+        }
+
+        .help-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 10000;
+        }
+
+        .help-overlay.active {
+            display: block;
+        }
+
         .info-section {
             background: #f8f9fa;
             padding: 30px 40px;
@@ -579,6 +718,88 @@
     </style>
 </head>
 <body>
+    <!-- Help Button -->
+    <button class="help-btn" onclick="toggleHelp()" title="Help">❓</button>
+
+    <!-- Help Panel Overlay -->
+    <div class="help-overlay" id="helpOverlay" onclick="toggleHelp()"></div>
+
+    <!-- Help Panel -->
+    <div class="help-panel" id="helpPanel">
+        <div class="help-panel-header">
+            <h2>📖 How to Use This System</h2>
+            <button class="help-close-btn" onclick="toggleHelp()">✕</button>
+        </div>
+        <div class="help-panel-content">
+            <div class="help-section">
+                <h3>👋 Welcome!</h3>
+                <p>This is a shared progress tracker for Pera's 8-week support plan. Everyone on the team (parents, tutor, and teacher) can see and update progress in real-time.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>1️⃣ First Step: Select Your Name</h3>
+                <p>Before making any changes, select your name from the dropdown at the top. This helps everyone see who made the last update.</p>
+                <div class="help-tip">
+                    <strong>Important:</strong> You cannot save anything without selecting your name first!
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>2️⃣ Daily Home Routine</h3>
+                <p>Parents: Check off each day when the home routine is completed:</p>
+                <ul>
+                    <li><strong>Phonics (8-10 min):</strong> Sound review → Blending → Dictation</li>
+                    <li><strong>Reading with Raz-Plus (10-12 min):</strong> Listen → Read twice → Answer questions</li>
+                    <li><strong>Math with Reflex Math (7-10 min):</strong> Practice + strategy support</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>💬 Adding Comments</h3>
+                <p>Click the 💬 icon next to any day to add a note. For example:</p>
+                <ul>
+                    <li>"Had a great session today!"</li>
+                    <li>"Struggled with blending, needs more practice"</li>
+                    <li>"Finished Raz level B book"</li>
+                </ul>
+                <p>When a day has a comment, the icon changes to 📝 with a purple background.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>📊 Progress Tracking</h3>
+                <ul>
+                    <li><strong>Checkboxes:</strong> Mark days as completed</li>
+                    <li><strong>Progress bars:</strong> Show completion percentage</li>
+                    <li><strong>Friday Progress Check:</strong> Rate ELA and Math as Mastered, Developing, or Needs Support</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>👥 Who Does What?</h3>
+                <ul>
+                    <li><strong>Mrs. Frixione (School):</strong> Primary classroom instruction</li>
+                    <li><strong>Ms. Boothby (Tutor):</strong> 2x/week explicit teaching sessions</li>
+                    <li><strong>Erhan & Meral (Home):</strong> Daily 25-35 min practice routine</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>🔄 Real-Time Sync</h3>
+                <p>All changes are saved automatically and synced across all devices. When someone makes a change, you'll see "Last edited by [name]" at the bottom of each week.</p>
+            </div>
+
+            <div class="help-section">
+                <h3>💡 Tips for Success</h3>
+                <ul>
+                    <li>Keep sessions short (25-35 min) - stop while she still feels successful!</li>
+                    <li>Be consistent - daily practice is better than long sessions</li>
+                    <li>Use comments to communicate with the team</li>
+                    <li>Check progress bars to celebrate achievements</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>🌟 Pera's 8-Week Aligned Support Plan 🌟</h1>
@@ -1108,6 +1329,14 @@
         function toggleWeek(header) {
             const section = header.parentElement;
             section.classList.toggle('collapsed');
+        }
+
+        // Toggle Help Panel
+        function toggleHelp() {
+            const panel = document.getElementById('helpPanel');
+            const overlay = document.getElementById('helpOverlay');
+            panel.classList.toggle('active');
+            overlay.classList.toggle('active');
         }
 
         // Comment Modal Functions
