@@ -592,7 +592,7 @@
                         <option value="">Select your name</option>
                         <option value="Erhan">Erhan</option>
                         <option value="Meral">Meral</option>
-                        <option value="Eva">Eva</option>
+                        <option value="Ms. Boothby">Ms. Boothby</option>
                         <option value="Mrs. Frixione">Mrs. Frixione</option>
                     </select>
                 </div>
@@ -1089,6 +1089,21 @@
             }
         }
 
+        // Check if user is selected before saving
+        function requireUser() {
+            const user = getCurrentUser();
+            if (!user) {
+                showNotification('⚠️ Please select your name first!', 'error');
+                document.getElementById('currentUser').focus();
+                document.getElementById('currentUser').style.outline = '3px solid #dc3545';
+                setTimeout(() => {
+                    document.getElementById('currentUser').style.outline = '';
+                }, 2000);
+                return false;
+            }
+            return true;
+        }
+
         // Toggle week sections
         function toggleWeek(header) {
             const section = header.parentElement;
@@ -1118,9 +1133,11 @@
         }
 
         function saveComment() {
+            if (!requireUser()) return;
+
             const comment = document.getElementById('commentText').value;
             const weekNum = currentCommentDay.match(/w(\d+)-/)[1];
-            const user = getCurrentUser() || 'Anonymous';
+            const user = getCurrentUser();
 
             db.collection('weeks').doc(`week${weekNum}`).set({
                 dayComments: { [currentCommentDay]: comment },
@@ -1233,6 +1250,8 @@
 
         // Set status for progress items
         function setStatus(button, groupName) {
+            if (!requireUser()) return;
+
             const buttons = button.parentElement.querySelectorAll('.status-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -1251,7 +1270,9 @@
 
         // Save week data
         function saveWeekData(weekNum) {
-            const user = getCurrentUser() || 'Anonymous';
+            if (!requireUser()) return;
+
+            const user = getCurrentUser();
             const weekData = {
                 week: weekNum,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -1408,10 +1429,14 @@
         document.addEventListener('change', function(e) {
             // Auto-save checkboxes
             if (e.target.matches('input[type="checkbox"]')) {
+                if (!requireUser()) {
+                    e.target.checked = !e.target.checked; // Revert checkbox
+                    return;
+                }
                 const weekMatch = e.target.id.match(/w(\d+)-/);
                 if (weekMatch) {
                     const weekNum = weekMatch[1];
-                    const user = getCurrentUser() || 'Anonymous';
+                    const user = getCurrentUser();
                     db.collection('weeks').doc(`week${weekNum}`).set({
                         week: parseInt(weekNum),
                         completed: { [e.target.id]: e.target.checked },
@@ -1429,6 +1454,7 @@
             if (e.target.matches('input[type="text"], textarea')) {
                 clearTimeout(autoSaveTimer);
                 autoSaveTimer = setTimeout(() => {
+                    if (!requireUser()) return;
                     // Find which week this belongs to
                     const section = e.target.closest('.week-section');
                     if (section) {
